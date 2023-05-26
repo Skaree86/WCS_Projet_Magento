@@ -58,5 +58,6 @@ describe("Le client cherche un produit", () => {
     cy.get(
       ".payment-method-content > :nth-child(4) > div.primary > .action"
     ).click();
+    cy.get('[class="page-title-wrapper"]').contains('Thank you for your purchase!');
   });
 });
