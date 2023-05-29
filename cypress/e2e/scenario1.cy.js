@@ -6,14 +6,14 @@ describe("Le client cherche un produit", () => {
   });
 
   it("choisir Tops via la barre de navigation", () => {
-    const firstName = faker.person.firstName();
-    const email = faker.internet.email();
-    const lastName = faker.person.lastName();
-    const adress = faker.location.streetAddress();
-    const city = faker.location.city();
-    const state = faker.location.state();
-    const zipCode = faker.location.zipCode();
-    const phoneNumber = faker.phone.number();
+    // const firstName = faker.person.firstName();
+    // const email = faker.internet.email();
+    // const lastName = faker.person.lastName();
+    // const adress = faker.location.streetAddress();
+    // const city = faker.location.city();
+    // const state = faker.location.state();
+    // const zipCode = faker.location.zipCode();
+    // const phoneNumber = faker.phone.number();
     cy.intercept({
       url: "https://magento.softwaretestingboard.com/customer/section/load/*",
       method: "GET",
@@ -43,21 +43,23 @@ describe("Le client cherche un produit", () => {
     cy.wait("@waitCheckout");
     cy.get(
       "#customer-email-fieldset > .required > .control > #customer-email"
-    ).type(email);
-    cy.get('[name="firstname"]').type(firstName); //first name
-    cy.get('[name="lastname"]').type(lastName); //lastname
-    cy.get('[name="street[0]"]').type(adress); // adresse
-    cy.get('[name="city"]').type(city); // city
-    cy.get('[name="region_id"]').select(state);
-    cy.get('[name="postcode"]').type(zipCode); // cp
-    cy.get('[name="telephone"]').type(phoneNumber); // telephone
-    cy.get('[type="radio"]').check(); // shipping
+    ).type(faker.internet.email());
+    cy.get('[name="firstname"]').type(faker.person.firstName());
+    cy.get('[name="lastname"]').type(faker.person.lastName());
+    cy.get('[name="street[0]"]').type(faker.location.streetAddress());
+    cy.get('[name="city"]').type(faker.location.city());
+    cy.get('[name="region_id"]').select(faker.location.state());
+    cy.get('[name="postcode"]').type(faker.location.zipCode());
+    cy.get('[name="telephone"]').type(faker.phone.number());
+    cy.get('[type="radio"]').check("tablerate_bestway");
     cy.get(".button > span").click();
 
     cy.get("#billing-address-same-as-shipping-checkmo").check();
     cy.get(
       ".payment-method-content > :nth-child(4) > div.primary > .action"
     ).click();
-    cy.get('[class="page-title-wrapper"]').contains('Thank you for your purchase!');
+    cy.get('[class="page-title-wrapper"]').contains(
+      "Thank you for your purchase!"
+    );
   });
 });
